@@ -1,0 +1,11 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/marlonscastro/blockchain.git",
+  "author": "marlonscastro <marloncastro@live.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.1.2"
+  }
+}
