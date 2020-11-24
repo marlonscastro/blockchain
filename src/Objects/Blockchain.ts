@@ -1,33 +1,28 @@
 import crypto from 'crypto';
+import Block from './Block';
 
 class Blockchain {
-    private chain: Block[];
-    private previous_hash: string = '0';
+    public chain: Block[] = [];
 
     constructor() {
         this.chain = [];
+        this.createBlock(1, '0');
     }
 
-    public createBlock(proof: any, previous_hash: string): Block {
-        let block = {
-            index: this.chain.length + 1,
-            timestamp: Date.now(),
-            previous_hash: previous_hash,
-            proof: 1
-        }
-        this.chain.push(block);
+    public createBlock(proof: string, previous_hash: string): Block {
+        let block = new Block((this.chain.length + 1), '', previous_hash);
         return block;
     }
 
-    public getPreviousBlock(): Block | undefined {
-        return this.chain.pop();
+    public getPreviousBlock(): Block {
+        return this.chain.pop() as Block;
     }
 
     public proofOfWork(previous_proof: number): number {
         let new_proof = 1;
         let check_proof = false;
         while (check_proof == false) {
-            let hash_operation = crypto.createHash('sha256').update((new_proof * new_proof - previous_proof * previous_proof).toString()).digest('hex');
+            let hash_operation = crypto.createHash('sha256').update((new_proof ** 2 - previous_proof ** 2).toString()).digest('hex');
             if (hash_operation.substr(0, 4) === '0000')
                 check_proof = true;
             else
@@ -37,7 +32,6 @@ class Blockchain {
     }
 
     public hash(block: Block): string {
-        // Pega Json (Block) e da um stringfy para repassar p função abaixo;
         let strBlock = JSON.stringify(block);
         return crypto.createHash('sha256').update(strBlock).digest('hex');
     }
@@ -50,9 +44,9 @@ class Blockchain {
             if (block['previous_hash'] !== this.hash(previous_block))
                 return false;
 
-            let previous_proof = previous_block['proof'];
-            let proof = block['proof'];
-            let hash_operation = crypto.createHash('sha256').update((proof * proof - previous_proof * previous_proof).toString()).digest('hex');
+            let previous_proof = previous_block['nonce'];
+            let proof = block['nonce'];
+            let hash_operation = crypto.createHash('sha256').update((proof ** 2 - previous_proof ** 2).toString()).digest('hex');
             if (hash_operation.substr(0, 4) !== '0000')
                 return false;
             previous_block = block;
