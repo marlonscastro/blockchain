@@ -2,21 +2,24 @@
   "name": "blockchain",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/marlonscastro/blockchain.git",
-  "author": "marlonscastro <marloncastro@live.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/index.ts"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.9",
-    "@types/node": "^14.14.9",
-    "ts-node": "^9.0.0",
-    "ts-node-dev": "^1.0.0",
-    "typescript": "^4.1.2"
+    "dev": "PORT=8000 ts-node-dev --respawn --transpile-only --ignore-watch node_modules index.ts",
+    "build": "tsc -p .",
+    "start": "PORT=8000 node dist/index.js"
   },
   "dependencies": {
-    "crypto": "^1.0.1",
-    "express": "^4.17.1"
+    "@types/node": "^15.12.1",
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "js-sha256": "^0.9.0",
+    "typescript": "^4.3.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^4.17.12",
+    "@types/uuid": "^8.3.0",
+    "ts-node-dev": "^1.1.6"
   }
 }
